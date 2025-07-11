@@ -56,3 +56,11 @@ set :puma_state, "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
 set :puma_preload_app, true
 set :puma_prune_bundler, true
+
+set :default_env, {
+  'DB_HOST' => 'db-postgresql-invox-do-user-18613087-0.j.db.ondigitalocean.com',
+  'DB_PORT' => '25060',
+  'DB_USER' => 'doadmin',
+  'DB_PASS' => 'AVNS_7Uw3utu-ihqsHJEdyIW',
+  'DB_NAME' => 'backend_staging'
+}
