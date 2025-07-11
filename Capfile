@@ -13,7 +13,7 @@ require "capistrano/rbenv"       # or RVM/chruby if you prefer
 require "capistrano/bundler"
 
 # 4. Rails helpers (assets & migrations)
-require "capistrano/rails/assets"
+#require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
 
 # 5. Puma (using capistrano3-puma)
