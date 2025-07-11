@@ -82,8 +82,13 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 staging:
-  <<: *primary_production
+  <<: *default
+  host: <%= ENV.fetch("DB_HOST", "db-postgresql-invox-do-user-18613087-0.j.db.ondigitalocean.com") %>
+  port: 25060
   database: backend_staging
+  username: <%= ENV.fetch("DB_USER", "doadmin") %>
+  password: <%= ENV["DB_PASS"] %>
+  sslmode: require
 
 production:
   primary: &primary_production
