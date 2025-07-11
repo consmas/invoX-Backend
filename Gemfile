@@ -52,10 +52,20 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
+  gem "dotenv-rails"
   gem 'rspec-rails'
+
+  gem 'capistrano',        require: false
+  gem 'capistrano-rails',  require: false
+  gem 'capistrano-rbenv',  require: false
+  gem 'capistrano-bundler',require: false
+  gem 'capistrano3-puma',  require: false
   
 end
 
 
+
+
 gem "rack-cors", "~> 3.0"
+
 
