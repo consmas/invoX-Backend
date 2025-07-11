@@ -2,7 +2,8 @@
 lock "~> 3.19.2"
 
 set :application, "invoX-Backend"
-set :repo_url, "git@github.com:consmas/invoX-Backend.git"
+set :repo_url, "https://github.com/consmas/invoX-Backend.git"
+
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
