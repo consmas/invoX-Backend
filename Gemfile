@@ -53,9 +53,19 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem 'rspec-rails'
+
+  gem 'capistrano',        require: false
+  gem 'capistrano-rails',  require: false
+  gem 'capistrano-rbenv',  require: false
+  gem 'capistrano-bundler',require: false
+  gem 'capistrano3-puma',  require: false
   
 end
 
 
+
+
+
 gem "rack-cors", "~> 3.0"
+
 
