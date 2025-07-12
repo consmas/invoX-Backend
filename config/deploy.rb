@@ -45,7 +45,7 @@ set :rbenv_ruby, '3.4.1'
 
 
 # Linked files & directories (shared between releases)
-append :linked_files, "config/master.key"
+append :linked_files, "config/master.key", ".env"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "storage"
 
 # Puma config
