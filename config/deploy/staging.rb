@@ -64,6 +64,7 @@
 
 set :stage, :staging
 server "164.92.89.226", user: "root", roles: %w{app db web}
+set :deploy_to, "/var/www/invox_staging"
 
 # deploy the `dev` branch to staging
 set :branch, "dev"
