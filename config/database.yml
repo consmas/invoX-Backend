@@ -20,7 +20,7 @@ test:
 staging:
   <<: *default
   database: <%= ENV.fetch("DB_NAME", "backend_staging") %>
-  sslmode: disable
+  sslmode: require
 
 production:
   <<: *default
