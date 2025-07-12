@@ -9,7 +9,7 @@ set :repo_url, "https://github.com/consmas/invoX-Backend.git"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/www/invox_backend"
+#set :deploy_to, "/var/www/invox_backend"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -58,9 +58,9 @@ set :puma_preload_app, true
 set :puma_prune_bundler, true
 
 set :default_env, {
-  'DB_HOST' => 'db-postgresql-invox-do-user-18613087-0.j.db.ondigitalocean.com',
-  'DB_PORT' => '25060',
-  'DB_USER' => 'doadmin',
-  'DB_PASS' => 'AVNS_7Uw3utu-ihqsHJEdyIW',
-  'DB_NAME' => 'backend_staging'
+  'DB_HOST' => ENV['DB_HOST'],
+  'DB_PORT' => ENV['DB_PORT'],
+  'DB_USER' => ENV['DB_USER'],
+  'DB_PASS' => ENV['DB_PASS'],
+  'DB_NAME' => ENV['DB_NAME']
 }
