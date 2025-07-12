@@ -6,20 +6,23 @@ default: &default
   port:     <%= ENV.fetch("DB_PORT") %>
   username: <%= ENV.fetch("DB_USER") %>
   password: <%= ENV.fetch("DB_PASS") %>
-  sslmode:  require
 
 development:
   <<: *default
   database: <%= ENV.fetch("DB_NAME", "invoix_development") %>
+  sslmode: disable
 
 test:
   <<: *default
   database: <%= ENV.fetch("DB_NAME", "backend_test") %>
+  sslmode: disable
 
 staging:
   <<: *default
   database: <%= ENV.fetch("DB_NAME", "backend_staging") %>
+  sslmode: disable
 
 production:
   <<: *default
   database: <%= ENV.fetch("DB_NAME", "defaultdb") %>
+  sslmode: require
