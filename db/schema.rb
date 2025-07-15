@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_28_185747) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_14_225651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "bids", force: :cascade do |t|
+    t.bigint "invoice_id", null: false
+    t.bigint "financer_id", null: false
+    t.decimal "amount", precision: 15, scale: 2, null: false
+    t.integer "status", default: 0, null: false
+    t.date "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["financer_id"], name: "index_bids_on_financer_id"
+    t.index ["invoice_id"], name: "index_bids_on_invoice_id"
+  end
 
   create_table "buyers", force: :cascade do |t|
     t.string "name"
@@ -78,6 +90,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_28_185747) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "bids", "invoices"
+  add_foreign_key "bids", "users", column: "financer_id"
   add_foreign_key "invoices", "programmes"
   add_foreign_key "invoices", "suppliers"
   add_foreign_key "programmes", "buyers"

@@ -3,6 +3,7 @@ class User < ApplicationRecord
   belongs_to :buyer, optional: true
   
   enum :role, { buyer_admin: 0, supplier_user: 1, platform_ops: 2, financer: 3 }
+  scope :financers, -> { where(role: :financer) }
 
   # if this user is a supplier_user, they “fulfill” invoices
   has_many :invoices, foreign_key: :supplier_id, dependent: :nullify
