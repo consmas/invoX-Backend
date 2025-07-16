@@ -4,7 +4,7 @@ module Api
     class BidsController < ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :authenticate_user!
-      before_action :set_invoice, only: %i[index create]
+      before_action :set_invoice, only: %i[index create], if: -> { params[:invoice_id].present? }
       before_action :set_bid,     only: %i[show update destroy accept reject]
 
       # GET /api/v1/invoices/:invoice_id/bids
@@ -13,6 +13,13 @@ module Api
         bids =
           if params[:invoice_id]
             @invoice.bids
+          elsif params[:financer_id]
+            # only platform_ops or the financer themself
+            if current_user.platform_ops? || current_user.id == params[:financer_id].to_i
+              Bid.where(financer_id: params[:financer_id])
+            else
+              return render(json: { error: 'Forbidden' }, status: :forbidden)
+            end
           elsif current_user.platform_ops?
             Bid.all
           else

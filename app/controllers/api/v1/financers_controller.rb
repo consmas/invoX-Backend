@@ -4,8 +4,13 @@ module Api
     class FinancersController < ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :authenticate_user!
+
+      # Only Platform Ops can index/create/update/destroy financiers
       before_action :ensure_platform_ops!, only: %i[index create update destroy]
-      before_action :set_financer,        only: %i[show update destroy portfolio]
+
+      # For show/portfolio, allow either the financer themselves or any Platform Ops
+      before_action :set_financer, only: %i[show update destroy portfolio opportunities]
+      before_action :authorize_financer_or_platform_ops!, only: %i[show portfolio]
 
       # GET /api/v1/financers
       def index
@@ -28,7 +33,7 @@ module Api
         end
       end
 
-      # PATCH/PUT /api/v1/financers/:id
+      # PATCH /api/v1/financers/:id
       def update
         if @financer.update(financer_params)
           render json: @financer, status: :ok
@@ -45,13 +50,24 @@ module Api
       end
 
       # GET /api/v1/financers/:id/portfolio
-      # returns all invoices this financer has funded
       def portfolio
         invoices = @financer.funded_invoices.includes(:bids, :supplier)
-        render json: invoices.as_json(include: {
-                                         bids:   { only: %i[id amount status expiry_date] },
-                                         supplier: { only: %i[id email] }
-                                       }), status: :ok
+        render json: invoices.as_json(
+                 include: {
+                   bids:     { only: %i[id amount status expiry_date] },
+                   supplier: { only: %i[id email] }
+                 }
+               ), status: :ok
+      end
+
+      # GET /api/v1/financers/:id/opportunities
+      def opportunities
+        authorize_financer_or_platform_ops!
+        invoices = @financer.opportunities.includes(:supplier)
+        render json: invoices.as_json(
+                 only:    %i[id programme_id amount status due_date],
+                 include: { supplier: { only: %i[id email] } }
+               ), status: :ok
       end
 
       private
@@ -67,6 +83,12 @@ module Api
 
       def ensure_platform_ops!
         return if current_user.platform_ops?
+
+        render json: { error: "Forbidden" }, status: :forbidden
+      end
+
+      def authorize_financer_or_platform_ops!
+        return if current_user.platform_ops? || current_user == @financer
 
         render json: { error: "Forbidden" }, status: :forbidden
       end

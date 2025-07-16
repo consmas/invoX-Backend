@@ -39,11 +39,16 @@ Rails.application.routes.draw do
       # Top-level bids index for financers & platform_ops
       resources :bids, only: [:index]
 
-      # Financers resource with portfolio endpoint
+      # Financers resource + portfolio action
       resources :financers, only: %i[index show create update destroy] do
         member do
           get :portfolio
+          get :opportunities
         end
+
+        # This gives you GET /api/v1/financers/:financer_id/bids
+        resources :bids, only: [:index]
+
       end
 
       # Other resources
